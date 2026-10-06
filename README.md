@@ -2,7 +2,7 @@
 
 Personal portfolio for Pavel Luzanov, lifecycle marketing and CRM lead based in Kuala Lumpur. It's a single static page styled after a late-90s web directory, hosted free on GitHub Pages.
 
-**Live site:** `https://<your-github-username>.github.io`
+**Live site:** `https://pavelluzanov.github.io`
 **Contact:** pavelluzanov189@gmail.com | [LinkedIn](https://www.linkedin.com/in/luzanovpavel)
 
 ---
@@ -17,24 +17,6 @@ Personal portfolio for Pavel Luzanov, lifecycle marketing and CRM lead based in 
 ```
 
 There's no build step, framework or dependencies. Edit `index.html`, upload it, and the site updates.
-
----
-
-## Put it online (first time)
-
-1. Sign in to [github.com](https://github.com) and click **New repository**.
-2. Name it exactly `<your-github-username>.github.io` and set it to **Public**.
-3. Click **Add file > Upload files** and drag in `index.html`, `README.md` and the `assets` folder. Click **Commit changes**.
-4. Go to **Settings > Pages**. Under **Source**, choose **Deploy from a branch**, then branch `main` and folder `/ (root)`. Click **Save**.
-5. Wait one to two minutes, then open `https://<your-github-username>.github.io`.
-
-**Optional: custom domain.** If you buy a domain such as `pavelluzanov.com`, add it under **Settings > Pages > Custom domain**, then follow GitHub's instructions for the DNS records at your domain registrar.
-
----
-
-## Update the site
-
-Edit files directly on GitHub: open the file, click the pencil icon, make your change, then **Commit changes**. The live site updates within a couple of minutes. If you don't see the change, do a hard refresh (Ctrl+Shift+R on Windows, Cmd+Shift+R on Mac).
 
 ### Page sections
 
