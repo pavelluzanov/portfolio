@@ -97,7 +97,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px dotted var(
 /* ==========================================================
    LAYOUT BAND: quotes + previously at
    ========================================================== */
-.band{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin:32px 0}
+.band{display:grid;grid-template-columns:1fr;gap:16px;margin:32px 0}
 .box{background:var(--paper);border:1px solid var(--grey-dark)}
 .box h2{
   margin:0;padding:5px 10px;font:bold 14px var(--sans);color:#fff;
@@ -109,6 +109,14 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px dotted var(
 .quotes tr:last-child td{border-bottom:0}
 .quotes .up{color:#007A00;font-weight:bold;white-space:nowrap;text-align:right}
 .quotes .lbl{color:var(--muted);font-size:12px;display:block}
+/* desktop: quotes become a 2x2 ticker so the wide box stays tight */
+@media (min-width:781px){
+  .quotes,.quotes tbody{display:block}
+  .quotes tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+  .quotes tr{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dotted var(--grey-dark)}
+  .quotes tr td{border-bottom:0}
+  .quotes tr:nth-last-child(-n+2){border-bottom:0}
+}
 .prev{font-size:14px;margin:0}
 .prev a{font-weight:bold}
 .note{font-size:12px;color:var(--muted)}
@@ -203,9 +211,9 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
 /* real images */
 .shot{width:100%;height:auto;padding:0;background:var(--paper)}
 .photo .shot{height:100%;object-fit:cover}
-.logos{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
-.logo{height:34px;width:auto;max-width:130px;object-fit:contain}
-.logo-text{font-weight:bold;font-size:14px}
+.logos{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;min-height:38px;background:var(--paper);border:1px solid var(--grey-dark);box-shadow:2px 2px 0 var(--grey);font-weight:bold;font-size:14px}
+.logo{height:26px;width:auto;max-width:90px;object-fit:contain}
 </style>
 </head>
 <body>
@@ -261,10 +269,10 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
       <h2>Previously at</h2>
       <div class="body">
         <div class="logos">
-          <img class="logo" src="assets/logo-mindvalley.png" alt="Mindvalley" data-logo>
-          <img class="logo" src="assets/logo-socar.png" alt="SOCAR" data-logo>
-          <img class="logo" src="assets/logo-trevo.png" alt="TREVO" data-logo>
-          <img class="logo" src="assets/logo-easyuni.png" alt="EasyUni" data-logo>
+          <span class="chip"><img class="logo" src="assets/logo-mindvalley.png" alt="" data-logo>Mindvalley</span>
+          <span class="chip"><img class="logo" src="assets/logo-socar.png" alt="" data-logo>SOCAR</span>
+          <span class="chip"><img class="logo" src="assets/logo-trevo.png" alt="" data-logo>TREVO</span>
+          <span class="chip"><img class="logo" src="assets/logo-easyuni.png" alt="" data-logo>EasyUni</span>
         </div>
       </div>
     </div>
@@ -440,19 +448,13 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
     });
   });
 
-  // Missing image files fall back to a labelled placeholder (or plain text for logos)
+  // Missing image files fall back to a labelled placeholder (logos just drop the icon)
   document.querySelectorAll('img[data-label], img[data-logo]').forEach(img => {
     const fail = () => {
-      let el;
-      if (img.hasAttribute('data-logo')) {
-        el = document.createElement('span');
-        el.className = 'logo-text';
-        el.textContent = img.alt;
-      } else {
-        el = document.createElement('div');
-        el.className = img.className.replace('shot', 'slot');
-        el.innerHTML = img.dataset.label + '<br><code>' + img.getAttribute('src') + '</code>';
-      }
+      if (img.hasAttribute('data-logo')) { img.remove(); return; }
+      const el = document.createElement('div');
+      el.className = img.className.replace('shot', 'slot');
+      el.innerHTML = img.dataset.label + '<br><code>' + img.getAttribute('src') + '</code>';
       img.replaceWith(el);
     };
     if (img.complete && img.naturalWidth === 0) fail();
