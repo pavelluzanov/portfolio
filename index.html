@@ -199,6 +199,13 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
   .directory{grid-template-columns:1fr}
   .search{flex-direction:column}
 }
+
+/* real images */
+.shot{width:100%;height:auto;padding:0;background:var(--paper)}
+.photo .shot{height:100%;object-fit:cover}
+.logos{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.logo{height:34px;width:auto;max-width:130px;object-fit:contain}
+.logo-text{font-weight:bold;font-size:14px}
 </style>
 </head>
 <body>
@@ -253,8 +260,12 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
     <div class="box">
       <h2>Previously at</h2>
       <div class="body">
-        <p class="prev"><a href="#work">Mindvalley</a> | <a href="#work">SOCAR</a> | <a href="#work">TREVO</a> | EasyUni</p>
-        <p class="note">Logos can go here later. Drop them in <code>assets/</code>.</p>
+        <div class="logos">
+          <img class="logo" src="assets/logo-mindvalley.png" alt="Mindvalley" data-logo>
+          <img class="logo" src="assets/logo-socar.png" alt="SOCAR" data-logo>
+          <img class="logo" src="assets/logo-trevo.png" alt="TREVO" data-logo>
+          <img class="logo" src="assets/logo-easyuni.png" alt="EasyUni" data-logo>
+        </div>
       </div>
     </div>
   </div>
@@ -263,7 +274,7 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
   <section id="about" class="panel">
     <div class="about">
       <div class="photo bevel">
-        <div class="slot inset">Your headshot<br><code>assets/pavel.jpg</code></div>
+        <img class="shot inset" src="assets/pavel.jpg" alt="Your headshot" data-label="Your headshot" loading="lazy">
       </div>
       <div>
         <h2 class="h-section">About me</h2>
@@ -301,9 +312,9 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
           </ol>
         </div>
         <div class="slots">
-          <div class="slot inset wide">Journey canvas screenshot<br><code>assets/mv-crm-1.jpg</code></div>
-          <div class="slot inset">Cart abandonment email<br><code>assets/mv-crm-2.jpg</code></div>
-          <div class="slot inset">Welcome email<br><code>assets/mv-crm-3.jpg</code></div>
+          <img class="shot inset wide" src="assets/mv-crm-1.jpg" alt="Journey canvas screenshot" data-label="Journey canvas screenshot" loading="lazy">
+          <img class="shot inset" src="assets/mv-crm-2.jpg" alt="Cart abandonment email" data-label="Cart abandonment email" loading="lazy">
+          <img class="shot inset" src="assets/mv-crm-3.jpg" alt="Welcome email" data-label="Welcome email" loading="lazy">
         </div>
       </div>
     </article>
@@ -334,9 +345,9 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
           </table>
         </div>
         <div class="slots">
-          <div class="slot inset wide">Monthly Pass key visual<br><code>assets/socar-pass-1.jpg</code></div>
-          <div class="slot inset">In-app screen<br><code>assets/socar-pass-2.jpg</code></div>
-          <div class="slot inset">Purchase confirmation message<br><code>assets/socar-pass-3.jpg</code></div>
+          <img class="shot inset wide" src="assets/socar-pass-1.jpg" alt="Monthly Pass key visual" data-label="Monthly Pass key visual" loading="lazy">
+          <img class="shot inset" src="assets/socar-pass-2.jpg" alt="In-app screen" data-label="In-app screen" loading="lazy">
+          <img class="shot inset" src="assets/socar-pass-3.jpg" alt="Purchase confirmation message" data-label="Purchase confirmation message" loading="lazy">
         </div>
       </div>
     </article>
@@ -355,9 +366,9 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
           <p class="related">Related: <a href="#q" data-q="launch">Launches</a> <a href="#q" data-q="rebrand">Rebrand</a> <a href="#q" data-q="migration">CRM rework</a> <a href="#q" data-q="clevertap">CleverTap</a> <a href="#q" data-q="leanplum">Leanplum</a> <a href="#q" data-q="n8n">n8n</a></p>
         </div>
         <div class="slots">
-          <div class="slot inset">Before the rebrand<br><code>assets/trevo-1.jpg</code></div>
-          <div class="slot inset">After the rebrand<br><code>assets/trevo-2.jpg</code></div>
-          <div class="slot inset wide">Launch campaign<br><code>assets/trevo-3.jpg</code></div>
+          <img class="shot inset" src="assets/trevo-1.jpg" alt="Before the rebrand" data-label="Before the rebrand" loading="lazy">
+          <img class="shot inset" src="assets/trevo-2.jpg" alt="After the rebrand" data-label="After the rebrand" loading="lazy">
+          <img class="shot inset wide" src="assets/trevo-3.jpg" alt="Launch campaign" data-label="Launch campaign" loading="lazy">
         </div>
       </div>
     </article>
@@ -427,6 +438,25 @@ footer{font-size:12px;color:var(--muted);text-align:center;padding:10px 0 40px}
       q.value = el.dataset.q;
       filterWork(q.value, true);
     });
+  });
+
+  // Missing image files fall back to a labelled placeholder (or plain text for logos)
+  document.querySelectorAll('img[data-label], img[data-logo]').forEach(img => {
+    const fail = () => {
+      let el;
+      if (img.hasAttribute('data-logo')) {
+        el = document.createElement('span');
+        el.className = 'logo-text';
+        el.textContent = img.alt;
+      } else {
+        el = document.createElement('div');
+        el.className = img.className.replace('shot', 'slot');
+        el.innerHTML = img.dataset.label + '<br><code>' + img.getAttribute('src') + '</code>';
+      }
+      img.replaceWith(el);
+    };
+    if (img.complete && img.naturalWidth === 0) fail();
+    else img.addEventListener('error', fail);
   });
 </script>
 </body>
