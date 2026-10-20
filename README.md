@@ -32,50 +32,6 @@ The sections appear in this order in `index.html`. Search the file for these mar
 | `id="recognition"` | Awards, certifications, MBA and mentoring |
 | `id="contact"` | Email, LinkedIn and booking buttons |
 
-### Edit a headline metric
-
-Each row in the quotes box looks like this:
-
-```html
-<tr><td>Rebooking rate<span class="lbl">SOCAR lifecycle program</span></td><td class="up">▲ +6%</td></tr>
-```
-
-Change the label, the small grey source line, or the number. Copy a whole row to add a new one. Four or five rows is the sweet spot.
-
-### Add or edit a case study
-
-Each case study is an `<article class="case">` block. To add one, copy an existing block, paste it below the last case study, and change:
-
-- **`data-tags`:** the hidden keywords the search box matches against. Include the company, tools, channels and topics, all lowercase.
-- **`crumb`:** the breadcrumb, for example `Home &gt; Launches`. `&gt;` displays as `>`.
-- **`h3`:** the title.
-- **`meta`:** the company and dates.
-- **Paragraphs:** two short ones work best. Cover the problem and what you did.
-- **`result`:** the single biggest number and a one-line explanation.
-- **`related`:** the clickable tags. Each one filters the page when clicked:
-  ```html
-  <a href="#q" data-q="braze">Braze</a>
-  ```
-- **`steps`** (optional): a numbered timeline. Only use it when the content really is a sequence, like a lifecycle or a purchase flow.
-
-Then update the status line near the search box (`3 case studies across Mindvalley and SOCAR`) to match the new count.
-
-### Add images
-
-1. Upload the image into `assets/` with the filename shown in its grey placeholder box, for example `assets/mv-crm-1.jpg`.
-2. In `index.html`, replace the placeholder:
-   ```html
-   <div class="slot inset">Cart abandonment email<br><code>assets/mv-crm-2.jpg</code></div>
-   ```
-   with:
-   ```html
-   <img class="inset" src="assets/mv-crm-2.jpg" alt="Cart abandonment email for Mindvalley">
-   ```
-   For the wide slot at the top of each case study, keep the `wide` class: `<img class="inset wide" ...>`.
-3. Always write a real `alt` description. Screen readers use it, and it shows if an image fails to load.
-
-**Image tips:** use JPG for photos and screenshots, and PNG or SVG with a transparent background for logos. Keep each file under about 500 KB so the page loads fast on mobile; [squoosh.app](https://squoosh.app) compresses images for free. Before publishing, blur or crop out customer names, emails and internal dashboard numbers.
-
 ### Add logos
 
 Upload them to `assets/` (for example `logo-socar.png`), then replace the text line in the `Previously at` box with image tags. Delete the "Logos can go here later" note when you do.
@@ -103,13 +59,3 @@ Changing a value there updates it everywhere on the page.
 The search box and topic links filter the case studies in the browser, with no server or external services involved. A case study stays visible if the search text appears in its `data-tags` or anywhere in its visible text. To make a case study findable for a new keyword, add that word to its `data-tags`.
 
 ---
-
-## Before you share the link
-
-- [ ] Every image placeholder is replaced, or removed.
-- [ ] The "Logos can go here later" note is deleted.
-- [ ] Every number is one you can explain in an interview.
-- [ ] Nothing confidential is visible in screenshots.
-- [ ] Email, LinkedIn and booking links all work when clicked.
-- [ ] The page checks out on your phone.
-- [ ] The link is added to your LinkedIn Featured section and Contact info.
